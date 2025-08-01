@@ -1,0 +1,293 @@
+{
+  "session_id": "4a41e6e7-8bbe-4fb1-9849-9cfe2a9cec67",
+  "timestamp_start": "2025-08-01T20:55:41.994Z",
+  "timestamp_end": "2025-08-01T21:19:48.933Z",
+  "total_duration_minutes": 24.1,
+  "violations": {
+    "arc_telemetry_interceptions": [
+      {
+        "timestamp": "2025-08-01T20:56:50.256Z",
+        "level": "warn",
+        "message": "🎯 ARC TELEMETRY DOMAIN DETECTED",
+        "details": {
+          "requestId": "cdd6067c-f995-4ffd-a988-be00a1f4cb50",
+          "telemetryService": "Unknown Telemetry Service",
+          "host": "cdn-settings.segment.com",
+          "port": 443,
+          "category": "arc",
+          "sessionId": "4a41e6e7-8bbe-4fb1-9849-9cfe2a9cec67"
+        }
+      },
+      {
+        "timestamp": "2025-08-01T21:03:20.268Z",
+        "level": "warn", 
+        "message": "🎯 ARC TELEMETRY DOMAIN DETECTED",
+        "details": {
+          "requestId": "e5d83e2c-c97e-4c84-9f5b-4226644cc1cd",
+          "telemetryService": "Segment Analytics",
+          "host": "api.segment.io",
+          "port": 443,
+          "category": "arc",
+          "sessionId": "4a41e6e7-8bbe-4fb1-9849-9cfe2a9cec67"
+        }
+      },
+      {
+        "timestamp": "2025-08-01T21:19:09.531Z",
+        "level": "warn",
+        "message": "🎯 ARC TELEMETRY DOMAIN DETECTED", 
+        "details": {
+          "requestId": "2e0263e8-123f-48c4-9d05-e805b4d2ce05",
+          "telemetryService": "Sentry Error Tracking",
+          "host": "o298668.ingest.sentry.io",
+          "port": 443,
+          "category": "arc",
+          "sessionId": "4a41e6e7-8bbe-4fb1-9849-9cfe2a9cec67"
+        }
+      },
+      {
+        "timestamp": "2025-08-01T21:19:09.541Z",
+        "level": "warn",
+        "message": "🎯 ARC TELEMETRY DOMAIN DETECTED",
+        "details": {
+          "requestId": "382622bc-4b6e-4a8a-87c4-1da631be49cc",
+          "telemetryService": "LaunchDarkly Feature Flags", 
+          "host": "clientstream.launchdarkly.com",
+          "port": 443,
+          "category": "arc",
+          "sessionId": "4a41e6e7-8bbe-4fb1-9849-9cfe2a9cec67"
+        }
+      }
+    ],
+    "tls_interceptions": [
+      {
+        "timestamp": "2025-08-01T21:03:20.486Z",
+        "level": "info",
+        "message": "🔓 TLS interception established",
+        "details": {
+          "requestId": "e5d83e2c-c97e-4c84-9f5b-4226644cc1cd",
+          "host": "api.segment.io",
+          "port": 443,
+          "clientCipher": {
+            "name": "TLS_AES_128_GCM_SHA256",
+            "standardName": "TLS_AES_128_GCM_SHA256",
+            "version": "TLSv1.3"
+          },
+          "targetCipher": {
+            "name": "TLS_AES_128_GCM_SHA256", 
+            "standardName": "TLS_AES_128_GCM_SHA256",
+            "version": "TLSv1.3"
+          }
+        }
+      },
+      {
+        "timestamp": "2025-08-01T21:19:09.667Z",
+        "level": "info",
+        "message": "🔓 TLS interception established",
+        "details": {
+          "requestId": "382622bc-4b6e-4a8a-87c4-1da631be49cc",
+          "host": "clientstream.launchdarkly.com",
+          "port": 443,
+          "clientCipher": {
+            "name": "TLS_AES_128_GCM_SHA256",
+            "standardName": "TLS_AES_128_GCM_SHA256", 
+            "version": "TLSv1.3"
+          },
+          "targetCipher": {
+            "name": "ECDHE-RSA-AES128-GCM-SHA256",
+            "standardName": "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256",
+            "version": "TLSv1.2"
+          }
+        }
+      }
+    ],
+    "https_request_interceptions": [
+      {
+        "timestamp": "2025-08-01T21:03:20.486Z",
+        "level": "info",
+        "message": "📤 HTTPS request intercepted",
+        "details": {
+          "requestId": "bcdc1ca6-05a8-48dd-9991-3af06301e002",
+          "method": "POST",
+          "url": "https://api.segment.io/v1/b",
+          "host": "api.segment.io"
+        }
+      },
+      {
+        "timestamp": "2025-08-01T21:19:09.667Z",
+        "level": "info",
+        "message": "📤 HTTPS request intercepted",
+        "details": {
+          "requestId": "cd3ad986-5cd0-40c3-b342-f228cb8ae894",
+          "method": "GET",
+          "url": "https://clientstream.launchdarkly.com/meval/eyJsZF9kZXZpY2UiOnsiZW52QXR0cmlidXRlc1ZlcnNpb24iOiIxLjAiLCJvcyI6eyJuYW1lIjoibWFjT1MiLCJmYW1pbHkiOiJBcHBsZSIsInZlcnNpb24iOiIxNS4zLjEifSwibWFudWZhY3R1cmVyIjoiQXBwbGUiLCJrZXkiOiIyRDc4NjE4OS00MjE4LTRDRjYtQjJGNy1COTJEQTNBQ0FGMjYiLCJtb2RlbCI6Ik1hYyJ9LCJsZF9hcHBsaWNhdGlvbiI6eyJrZXkiOiJmV3lXYzdua0xwSzhyWjRURnRqZ2dMeEQxbWNsZ3Y4bHpMOXB5c1pGUk9nPSIsImlkIjoiY29tcGFueS50aGVicm93c2VyLkJyb3dzZXIiLCJ2ZXJzaW9uIjoiNjYxOTIiLCJlbnZBdHRyaWJ1dGVzVmVyc2lvbiI6IjEuMCIsImxvY2FsZSI6ImVuX1VTIiwibmFtZSI6IkFyYyIsInZlcnNpb25OYW1lIjoiMS4xMDYuMCJ9LCJraW5kIjoibXVsdGkiLCJ1c2VyIjp7ImFwcEJ1aWxkTnVtYmVyIjo2NjE5Miwia2V5IjoiMVV4NDhWMkhDNE5ab1NDcnhKMHNPQWtxRGR0MSIsImFwcFZlcnNpb24iOiIxLjEwNi4wIiwiY3JlYXRlZEF0IjoxNzI3NDg5OTk3NjEwLjM0M319",
+          "host": "clientstream.launchdarkly.com"
+        }
+      }
+    ],
+    "arc_telemetry_tracked": [
+      {
+        "timestamp": "2025-08-01T21:03:20.486Z",
+        "level": "info",
+        "message": "🎯 Arc telemetry intercepted",
+        "details": {
+          "requestId": "bcdc1ca6-05a8-48dd-9991-3af06301e002",
+          "tunnelId": "e5d83e2c-c97e-4c84-9f5b-4226644cc1cd",
+          "method": "POST",
+          "url": "https://api.segment.io/v1/b",
+          "domain": "api.segment.io",
+          "category": "arc",
+          "sessionId": "4a41e6e7-8bbe-4fb1-9849-9cfe2a9cec67"
+        }
+      },
+      {
+        "timestamp": "2025-08-01T21:19:09.667Z",
+        "level": "info", 
+        "message": "🎯 Arc telemetry intercepted",
+        "details": {
+          "requestId": "cd3ad986-5cd0-40c3-b342-f228cb8ae894",
+          "tunnelId": "382622bc-4b6e-4a8a-87c4-1da631be49cc",
+          "method": "GET",
+          "url": "https://clientstream.launchdarkly.com/meval/eyJsZF9kZXZpY2UiOnsiZW52QXR0cmlidXRlc1ZlcnNpb24iOiIxLjAiLCJvcyI6eyJuYW1lIjoibWFjT1MiLCJmYW1pbHkiOiJBcHBsZSIsInZlcnNpb24iOiIxNS4zLjEifSwibWFudWZhY3R1cmVyIjoiQXBwbGUiLCJrZXkiOiIyRDc4NjE4OS00MjE4LTRDRjYtQjJGNy1COTJEQTNBQ0FGMjYiLCJtb2RlbCI6Ik1hYyJ9LCJsZF9hcHBsaWNhdGlvbiI6eyJrZXkiOiJmV3lXYzdua0xwSzhyWjRURnRqZ2dMeEQxbWNsZ3Y4bHpMOXB5c1pGUk9nPSIsImlkIjoiY29tcGFueS50aGVicm93c2VyLkJyb3dzZXIiLCJ2ZXJzaW9uIjoiNjYxOTIiLCJlbnZBdHRyaWJ1dGVzVmVyc2lvbiI6IjEuMCIsImxvY2FsZSI6ImVuX1VTIiwibmFtZSI6IkFyYyIsInZlcnNpb25OYW1lIjoiMS4xMDYuMCJ9LCJraW5kIjoibXVsdGkiLCJ1c2VyIjp7ImFwcEJ1aWxkTnVtYmVyIjo2NjE5Miwia2V5IjoiMVV4NDhWMkhDNE5ab1NDcnhKMHNPQWtxRGR0MSIsImFwcFZlcnNpb24iOiIxLjEwNi4wIiwiY3JlYXRlZEF0IjoxNzI3NDg5OTk3NjEwLjM0M319",
+          "domain": "clientstream.launchdarkly.com",
+          "category": "arc", 
+          "sessionId": "4a41e6e7-8bbe-4fb1-9849-9cfe2a9cec67"
+        }
+      }
+    ],
+    "https_response_interceptions": [
+      {
+        "timestamp": "2025-08-01T21:03:20.675Z",
+        "level": "info",
+        "message": "📥 HTTPS response intercepted",
+        "details": {
+          "responseId": "8f7543da-4b7b-479d-8d92-7f49f2c01439",
+          "requestId": "bcdc1ca6-05a8-48dd-9991-3af06301e002",
+          "status": 200,
+          "host": "api.segment.io"
+        }
+      },
+      {
+        "timestamp": "2025-08-01T21:19:09.705Z",
+        "level": "info",
+        "message": "📥 HTTPS response intercepted",
+        "details": {
+          "responseId": "f2ba9fb1-01e4-4518-88fb-e626cc0560fb",
+          "requestId": "cd3ad986-5cd0-40c3-b342-f228cb8ae894",
+          "status": 200,
+          "host": "clientstream.launchdarkly.com"
+        }
+      }
+    ],
+    "possible_arc_domains": [
+      {
+        "timestamp": "2025-08-01T20:56:58.194Z",
+        "level": "warn",
+        "message": "🎯 ARC TELEMETRY DOMAIN DETECTED",
+        "details": {
+          "requestId": "eaa4d4d8-1235-4b63-a6bf-7e545bb45925",
+          "telemetryService": "Unknown Telemetry Service",
+          "host": "securetoken.googleapis.com",
+          "port": 443,
+          "category": "possible",
+          "sessionId": "4a41e6e7-8bbe-4fb1-9849-9cfe2a9cec67"
+        }
+      },
+      {
+        "timestamp": "2025-08-01T20:56:59.408Z",
+        "level": "warn",
+        "message": "🎯 ARC TELEMETRY DOMAIN DETECTED",
+        "details": {
+          "requestId": "7fee65c4-52bd-4d1a-9f93-7294e272edab",
+          "telemetryService": "Unknown Telemetry Service",
+          "host": "update.googleapis.com",
+          "port": 443,
+          "category": "possible",
+          "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36",
+          "sessionId": "4a41e6e7-8bbe-4fb1-9849-9cfe2a9cec67"
+        }
+      }
+    ],
+    "certificate_pinning_bypassed": [
+      {
+        "timestamp": "2025-08-01T20:56:59.411Z",
+        "level": "info", 
+        "message": "🔒 Certificate pinning detected (expected for Arc domains)",
+        "details": {
+          "requestId": "7fee65c4-52bd-4d1a-9f93-7294e272edab",
+          "host": "update.googleapis.com",
+          "reason": "Certificate pinning prevents TLS interception"
+        }
+      },
+      {
+        "timestamp": "2025-08-01T20:56:59.411Z",
+        "level": "info",
+        "message": "🔒 Certificate pinning detected, using direct tunnel",
+        "details": {
+          "requestId": "7fee65c4-52bd-4d1a-9f93-7294e272edab",
+          "host": "update.googleapis.com", 
+          "port": 443,
+          "reason": "Arc Browser uses certificate pinning to prevent interception"
+        }
+      }
+    ],
+    "database_errors": [
+      {
+        "timestamp": "2025-08-01T21:17:59.756Z",
+        "level": "error",
+        "message": "Failed to save response",
+        "details": {
+          "responseId": "90949929-a5d1-4089-bc5c-7bfeaededa67",
+          "requestId": "7f9c1d19-be5b-4a39-a741-6ec627cb122c",
+          "error": "FOREIGN KEY constraint failed"
+        }
+      }
+    ]
+  },
+  "full_raw_logs": [
+    "2025-08-01T20:55:41.994Z [info]: 🔐 Attempting TLS interception {\n  \"requestId\": \"4e44f65a-8cc5-49a1-aa54-12d8e418971b\",\n  \"host\": \"securetoken.googleapis.com\",\n  \"port\": 443\n}",
+    "2025-08-01T20:55:56.737Z [info]: ✅ Direct tunnel established {\n  \"requestId\": \"56f54480-38ac-47ca-8273-7afc6c985ab6\",\n  \"host\": \"configuration.ls.apple.com\",\n  \"port\": 443\n}",
+    "2025-08-01T20:55:56.961Z [info]: ✅ Direct tunnel established {\n  \"requestId\": \"f6d212b4-e20e-499c-bb67-f66f7a828997\",\n  \"host\": \"swallow.apple.com\",\n  \"port\": 443\n}",
+    "2025-08-01T20:55:56.982Z [info]: ✅ Direct tunnel established {\n  \"requestId\": \"6262c574-4612-47a2-b94f-5508674d75a0\",\n  \"host\": \"ocsp2.apple.com\",\n  \"port\": 443\n}",
+    "2025-08-01T20:55:57.019Z [info]: ✅ Direct tunnel established {\n  \"requestId\": \"a9def6a4-3d9e-4259-90cc-4d982e9e5d90\",\n  \"host\": \"mesu.apple.com\",\n  \"port\": 443\n}",
+    "2025-08-01T20:55:57.059Z [info]: ✅ Direct tunnel established {\n  \"requestId\": \"80b42d76-1c36-4275-9f89-caefe5724e15\",\n  \"host\": \"fbs.smoot.apple.com\",\n  \"port\": 443\n}",
+    "2025-08-01T20:55:57.098Z [info]: ✅ Direct tunnel established {\n  \"requestId\": \"366af223-aa83-449a-9ce7-ac1c8614243d\",\n  \"host\": \"itunes.apple.com\",\n  \"port\": 443\n}",
+    "2025-08-01T20:55:57.256Z [info]: ✅ Direct tunnel established {\n  \"requestId\": \"cc71baf8-5408-4172-a0b8-b6d87e9f93ba\",\n  \"host\": \"swallow.apple.com\",\n  \"port\": 443\n}",
+    "2025-08-01T20:55:57.372Z [info]: ✅ Direct tunnel established {\n  \"requestId\": \"a12d0e29-06e0-41f0-b81e-e1f7279b32b8\",\n  \"host\": \"go-updater.brave.com\",\n  \"port\": 443\n}",
+    "2025-08-01T20:55:57.606Z [info]: ✅ Direct tunnel established {\n  \"requestId\": \"924357e2-daf8-44cc-95e8-ee46fe65467a\",\n  \"host\": \"brave-core-ext.s3.brave.com\",\n  \"port\": 443\n}",
+    "2025-08-01T20:55:59.562Z [info]: ✅ Direct tunnel established {\n  \"requestId\": \"36320b47-721b-4953-ba46-c2b7675b3cbc\",\n  \"host\": \"gateway.icloud.com\",\n  \"port\": 443\n}",
+    "2025-08-01T20:56:04.643Z [info]: ✅ Direct tunnel established {\n  \"requestId\": \"25e0fd6c-535c-419b-86b4-58aa65d30725\",\n  \"host\": \"gateway.icloud.com\",\n  \"port\": 443\n}",
+    "2025-08-01T20:56:07.105Z [info]: ✅ Direct tunnel established {\n  \"requestId\": \"5e422e26-c38c-4db4-8f03-3a50d24e17ad\",\n  \"host\": \"p172-contacts.icloud.com\",\n  \"port\": 443\n}",
+    "2025-08-01T20:56:07.374Z [info]: ✅ Direct tunnel established {\n  \"requestId\": \"ed96bd68-8f07-413e-aa50-c4c835c59673\",\n  \"host\": \"p172-contacts.icloud.com\",\n  \"port\": 443\n}",
+    "2025-08-01T20:56:07.518Z [info]: ✅ Direct tunnel established {\n  \"requestId\": \"4e12950d-070c-4556-9e5e-7f8decd48a7a\",\n  \"host\": \"p172-contacts.icloud.com\",\n  \"port\": 443\n}",
+    "2025-08-01T20:56:07.871Z [info]: ✅ Direct tunnel established {\n  \"requestId\": \"7551f71e-df2d-4fc8-a3e9-e0268acbce10\",\n  \"host\": \"p172-contacts.icloud.com\",\n  \"port\": 443\n}",
+    "2025-08-01T20:56:21.195Z [info]: ✅ Direct tunnel established {\n  \"requestId\": \"90561c98-a0ef-4e4d-8a68-7df7be6e0561\",\n  \"host\": \"news-edge.apple.com\",\n  \"port\": 443\n}",
+    "2025-08-01T20:56:21.473Z [info]: ✅ Direct tunnel established {\n  \"requestId\": \"b5afd7b5-ebb0-476c-b536-0237d28829dc\",\n  \"host\": \"c.apple.news\",\n  \"port\": 443\n}",
+    "2025-08-01T20:56:21.972Z [error]: Socket error {\n  \"error\": \"read ECONNRESET\"\n}",
+    "2025-08-01T20:56:21.972Z [error]: Socket error {\n  \"error\": \"read ECONNRESET\"\n}",
+    "2025-08-01T20:56:50.256Z [warn]: 🎯 ARC TELEMETRY DOMAIN DETECTED {\n  \"requestId\": \"cdd6067c-f995-4ffd-a988-be00a1f4cb50\",\n  \"telemetryService\": \"Unknown Telemetry Service\",\n  \"host\": \"cdn-settings.segment.com\",\n  \"port\": 443,\n  \"category\": \"arc\",\n  \"sessionId\": \"4a41e6e7-8bbe-4fb1-9849-9cfe2a9cec67\"\n}",
+    "2025-08-01T20:56:50.258Z [info]: 🔐 Attempting TLS interception {\n  \"requestId\": \"cdd6067c-f995-4ffd-a988-be00a1f4cb50\",\n  \"host\": \"cdn-settings.segment.com\",\n  \"port\": 443\n}",
+    "2025-08-01T20:56:57.329Z [info]: ✅ Direct tunnel established {\n  \"requestId\": \"5ea54a70-39c8-4d5a-9139-0cbafe7610ab\",\n  \"host\": \"go-updater.brave.com\",\n  \"port\": 443\n}",
+    "2025-08-01T20:56:57.863Z [info]: ✅ Direct tunnel established {\n  \"requestId\": \"b96be154-05ce-4d77-a0a9-b7762af789f5\",\n  \"host\": \"componentupdater.brave.com\",\n  \"port\": 443\n}",
+    "2025-08-01T20:56:58.194Z [warn]: 🎯 ARC TELEMETRY DOMAIN DETECTED {\n  \"requestId\": \"eaa4d4d8-1235-4b63-a6bf-7e545bb45925\",\n  \"telemetryService\": \"Unknown Telemetry Service\",\n  \"host\": \"securetoken.googleapis.com\",\n  \"port\": 443,\n  \"category\": \"possible\",\n  \"sessionId\": \"4a41e6e7-8bbe-4fb1-9849-9cfe2a9cec67\"\n}",
+    "2025-08-01T20:56:58.195Z [info]: 🔐 Attempting TLS interception {\n  \"requestId\": \"eaa4d4d8-1235-4b63-a6bf-7e545bb45925\",\n  \"host\": \"securetoken.googleapis.com\",\n  \"port\": 443\n}",
+    "2025-08-01T20:56:59.408Z [warn]: 🎯 ARC TELEMETRY DOMAIN DETECTED {\n  \"requestId\": \"7fee65c4-52bd-4d1a-9f93-7294e272edab\",\n  \"telemetryService\": \"Unknown Telemetry Service\",\n  \"host\": \"update.googleapis.com\",\n  \"port\": 443,\n  \"category\": \"possible\",\n  \"userAgent\": \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36\",\n  \"sessionId\": \"4a41e6e7-8bbe-4fb1-9849-9cfe2a9cec67\"\n}",
+    "2025-08-01T20:56:59.409Z [info]: 🔐 Attempting TLS interception {\n  \"requestId\": \"7fee65c4-52bd-4d1a-9f93-7294e272edab\",\n  \"host\": \"update.googleapis.com\",\n  \"port\": 443\n}",
+    "2025-08-01T20:56:59.411Z [info]: 🔒 Certificate pinning detected (expected for Arc domains) {\n  \"requestId\": \"7fee65c4-52bd-4d1a-9f93-7294e272edab\",\n  \"host\": \"update.googleapis.com\",\n  \"reason\": \"Certificate pinning prevents TLS interception\"\n}",
+    "2025-08-01T20:56:59.411Z [info]: 🔒 Certificate pinning detected, using direct tunnel {\n  \"requestId\": \"7fee65c4-52bd-4d1a-9f93-7294e272edab\",\n  \"host\": \"update.googleapis.com\",\n  \"port\": 443,\n  \"reason\": \"Arc Browser uses certificate pinning to prevent interception\"\n}",
+    "2025-08-01T21:03:20.268Z [warn]: 🎯 ARC TELEMETRY DOMAIN DETECTED {\n  \"requestId\": \"e5d83e2c-c97e-4c84-9f5b-4226644cc1cd\",\n  \"telemetryService\": \"Segment Analytics\",\n  \"host\": \"api.segment.io\",\n  \"port\": 443,\n  \"category\": \"arc\",\n  \"sessionId\": \"4a41e6e7-8bbe-4fb1-9849-9cfe2a9cec67\"\n}",
+    "2025-08-01T21:03:20.269Z [info]: 🔐 Attempting TLS interception {\n  \"requestId\": \"e5d83e2c-c97e-4c84-9f5b-4226644cc1cd\",\n  \"host\": \"api.segment.io\",\n  \"port\": 443\n}",
+    "2025-08-01T21:03:20.486Z [info]: 🔓 TLS interception established {\n  \"requestId\": \"e5d83e2c-c97e-4c84-9f5b-4226644cc1cd\",\n  \"host\": \"api.segment.io\",\n  \"port\": 443,\n  \"clientCipher\": {\n    \"name\": \"TLS_AES_128_GCM_SHA256\",\n    \"standardName\": \"TLS_AES_128_GCM_SHA256\",\n    \"version\": \"TLSv1.3\"\n  },\n  \"targetCipher\": {\n    \"name\": \"TLS_AES_128_GCM_SHA256\",\n    \"standardName\": \"TLS_AES_128_GCM_SHA256\",\n    \"version\": \"TLSv1.3\"\n  }\n}",
+    "2025-08-01T21:03:20.486Z [info]: 📤 HTTPS request intercepted {\n  \"requestId\": \"bcdc1ca6-05a8-48dd-9991-3af06301e002\",\n  \"method\": \"POST\",\n  \"url\": \"https://api.segment.io/v1/b\",\n  \"host\": \"api.segment.io\"\n}",
+    "2025-08-01T21:03:20.486Z [info]: 🎯 Arc telemetry intercepted {\n  \"requestId\": \"bcdc1ca6-05a8-48dd-9991-3af06301e002\",\n  \"tunnelId\": \"e5d83e2c-c97e-4c84-9f5b-4226644cc1cd\",\n  \"method\": \"POST\",\n  \"url\": \"https://api.segment.io/v1/b\",\n  \"domain\": \"api.segment.io\",\n  \"category\": \"arc\",\n  \"sessionId\": \"4a41e6e7-8bbe-4fb1-9849-9cfe2a9cec67\"\n}",
+    "2025-08-01T21:03:20.675Z [info]: 📥 HTTPS response intercepted {\n  \"responseId\": \"8f7543da-4b7b-479d-8d92-7f49f2c01439\",\n  \"requestId\": \"bcdc1ca6-05a8-48dd-9991-3af06301e002\",\n  \"status\": 200,\n  \"host\": \"api.segment.io\"\n}",
+    "2025-08-01T21:03:20.675Z [info]: 📨 Arc telemetry response {\n  \"responseId\": \"8f7543da-4b7b-479d-8d92-7f49f2c01439\",\n  \"tunnelId\": \"e5d83e2c-c97e-4c84-9f5b-4226644cc1cd\",\n  \"status\": 200,\n  \"domain\": \"api.segment.io\",\n  \"category\": \"arc\",\n  \"sessionId\": \"4a41e6e7-8bbe-4fb1-9849-9cfe2a9cec67\"\n}",
+    "2025-08-01T21:17:59.756Z [info]: Failed to save response: {\n  responseId: '90949929-a5d1-4089-bc5c-7bfeaededa67',\n  requestId: '7f9c1d19-be5b-4a39-a741-6ec627cb122c',\n  error: 'FOREIGN KEY constraint failed'\n}",
+    "2025-08-01T21:19:09.531Z [warn]: 🎯 ARC TELEMETRY DOMAIN DETECTED {\n  \"requestId\": \"2e0263e8-123f-48c4-9d05-e805b4d2ce05\",\n  \"telemetryService\": \"Sentry Error Tracking\",\n  \"host\": \"o298668.ingest.sentry.io\",\n  \"port\": 443,\n  \"category\": \"arc\",\n  \"sessionId\": \"4a41e6e7-8bbe-4fb1-9849-9cfe2a9cec67\"\n}",
+    "2025-08-01T21:19:09.541Z [warn]: 🎯 ARC TELEMETRY DOMAIN DETECTED {\n  \"requestId\": \"382622bc-4b6e-4a8a-87c4-1da631be49cc\",\n  \"telemetryService\": \"LaunchDarkly Feature Flags\",\n  \"host\": \"clientstream.launchdarkly.com\",\n  \"port\": 443,\n  \"category\": \"arc\",\n  \"sessionId\": \"4a41e6e7-8bbe-4fb1-9849-9cfe2a9cec67\"\n}",
+    "2025-08-01T21:19:09.667Z [info]: 🔓 TLS interception established {\n  \"requestId\": \"382622bc-4b6e-4a8a-87c4-1da631be49cc\",\n  \"host\": \"clientstream.launchdarkly.com\",\n  \"port\": 443,\n  \"clientCipher\": {\n    \"name\": \"TLS_AES_128_GCM_SHA256\",\n    \"standardName\": \"TLS_AES_128_GCM_SHA256\",\n    \"version\": \"TLSv1.3\"\n  },\n  \"targetCipher\": {\n    \"name\": \"ECDHE-RSA-AES128-GCM-SHA256\",\n    \"standardName\": \"TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256\",\n    \"version\": \"TLSv1.2\"\n  }\n}",
+    "2025-08-01T21:19:09.667Z [info]: 📤 HTTPS request intercepted {\n  \"requestId\": \"cd3ad986-5cd0-40c3-b342-f228cb8ae894\",\n  \"method\": \"GET\",\n  \"url\": \"https://clientstream.launchdarkly.com/meval/eyJsZF9kZXZpY2UiOnsiZW52QXR0cmlidXRlc1ZlcnNpb24iOiIxLjAiLCJvcyI6eyJuYW1lIjoibWFjT1MiLCJmYW1pbHkiOiJBcHBsZSIsInZlcnNpb24iOiIxNS4zLjEifSwibWFudWZhY3R1cmVyIjoiQXBwbGUiLCJrZXkiOiIyRDc4NjE4OS00MjE4LTRDRjYtQjJGNy1COTJEQTNBQ0FGMjYiLCJtb2RlbCI6Ik1hYyJ9LCJsZF9hcHBsaWNhdGlvbiI6eyJrZXkiOiJmV3lXYzdua0xwSzhyWjRURnRqZ2dMeEQxbWNsZ3Y4bHpMOXB5c1pGUk9nPSIsImlkIjoiY29tcGFueS50aGVicm93c2VyLkJyb3dzZXIiLCJ2ZXJzaW9uIjoiNjYxOTIiLCJlbnZBdHRyaWJ1dGVzVmVyc2lvbiI6IjEuMCIsImxvY2FsZSI6ImVuX1VTIiwibmFtZSI6IkFyYyIsInZlcnNpb25OYW1lIjoiMS4xMDYuMCJ9LCJraW5kIjoibXVsdGkiLCJ1c2VyIjp7ImFwcEJ1aWxkTnVtYmVyIjo2NjE5Miwia2V5IjoiMVV4NDhWMkhDNE5ab1NDcnhKMHNPQWtxRGR0MSIsImFwcFZlcnNpb24iOiIxLjEwNi4wIiwiY3JlYXRlZEF0IjoxNzI3NDg5OTk3NjEwLjM0M319\",\n  \"host\": \"clientstream.launchdarkly.com\"\n}",
+    "2025-08-01T21:19:09.667Z [info]: 🎯 Arc telemetry intercepted {\n  \"requestId\": \"cd3ad986-5cd0-40c3-b342-f228cb8ae894\",\n  \"tunnelId\": \"382622bc-4b6e-4a8a-87c4-1da631be49cc\",\n  \"method\": \"GET\",\n  \"url\": \"https://clientstream.launchdarkly.com/meval/eyJsZF9kZXZpY2UiOnsiZW52QXR0cmlidXRlc1ZlcnNpb24iOiIxLjAiLCJvcyI6eyJuYW1lIjoibWFjT1MiLCJmYW1pbHkiOiJBcHBsZSIsInZlcnNpb24iOiIxNS4zLjEifSwibWFudWZhY3R1cmVyIjoiQXBwbGUiLCJrZXkiOiIyRDc4NjE4OS00MjE4LTRDRjYtQjJGNy1COTJEQTNBQ0FGMjYiLCJtb2RlbCI6Ik1hYyJ9LCJsZF9hcHBsaWNhdGlvbiI6eyJrZXkiOiJmV3lXYzdua0xwSzhyWjRURnRqZ2dMeEQxbWNsZ3Y4bHpMOXB5c1pGUk9nPSIsImlkIjoiY29tcGFueS50aGVicm93c2VyLkJyb3dzZXIiLCJ2ZXJzaW9uIjoiNjYxOTIiLCJlbnZBdHRyaWJ1dGVzVmVyc2lvbiI6IjEuMCIsImxvY2FsZSI6ImVuX1VTIiwibmFtZSI6IkFyYyIsInZlcnNpb25OYW1lIjoiMS4xMDYuMCJ9LCJraW5kIjoibXVsdGkiLCJ1c2VyIjp7ImFwcEJ1aWxkTnVtYmVyIjo2NjE5Miwia2V5IjoiMVV4NDhWMkhDNE5ab1NDcnhKMHNPQWtxRGR0MSIsImFwcFZlcnNpb24iOiIxLjEwNi4wIiwiY3JlYXRlZEF0IjoxNzI3NDg5OTk3NjEwLjM0M319\",\n  \"domain\": \"clientstream.launchdarkly.com\",\n  \"category\": \"arc\",\n  \"sessionId\": \"4a41e6e7-8bbe-4fb1-9849-9cfe2a9cec67\"\n}",
+    "2025-08-01T21:19:09.705Z [info]: 📥 HTTPS response intercepted {\n  \"responseId\": \"f2ba9fb1-01e4-4518-88fb-e626cc0560fb\",\n  \"requestId\": \"cd3ad986-5cd0-40c3-b342-f228cb8ae894\",\n  \"status\": 200,\n  \"host\": \"clientstream.launchdarkly.com\"\n}",
+    "2025-08-01T21:19:09.705Z [info]: 📨 Arc telemetry response {\n  \"responseId\": \"f2ba9fb1-01e4-4518-88fb-e626cc0560fb\",\n  \"tunnelId\": \"382622bc-4b6e-4a8a-87c4-1da631be49cc\",\n  \"status\": 200,\n  \"domain\": \"clientstream.launchdarkly.com\",\n  \"category\": \"arc\",\n  \"sessionId\": \"4a41e6e7-8bbe-4fb1-9849-9cfe2a9cec67\"\n}"
+  ]
+}
