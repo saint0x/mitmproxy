@@ -6,5 +6,6 @@ logs/
 *.db-shm
 *.db-wal
 certificates/*.pem
+*.pem
 .env
 .DS_Store
