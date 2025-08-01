@@ -1,0 +1,51 @@
+{
+  "name": "arc-mitm-observer",
+  "version": "1.0.0",
+  "description": "A fully type-safe MITM proxy built with TypeScript/Node that intercepts and analyzes Arc Browser traffic for telemetry, fingerprinting, and tracking behavior research.",
+  "main": "dist/main.js",
+  "type": "module",
+  "scripts": {
+    "start": "node dist/main.js",
+    "dev": "tsx watch src/main.ts",
+    "build": "tsc",
+    "cert": "bash scripts/generate-cert.sh",
+    "install-cert": "bash scripts/install-cert.sh",
+    "log": "tail -f logs/arc-telemetry-$(date +%Y-%m-%d).json | jq",
+    "export": "node dist/tools/export-evidence.js",
+    "test": "vitest",
+    "lint": "eslint src/**/*.ts",
+    "format": "prettier --write src/**/*.ts"
+  },
+  "keywords": [
+    "mitm",
+    "proxy",
+    "arc-browser",
+    "telemetry",
+    "privacy",
+    "tls-interception",
+    "typescript"
+  ],
+  "author": "deepsaint",
+  "license": "MIT",
+  "dependencies": {
+    "@types/better-sqlite3": "^7.6.11",
+    "better-sqlite3": "^11.5.0",
+    "tsconfig-paths": "^4.2.0",
+    "winston": "^3.17.0",
+    "winston-daily-rotate-file": "^5.0.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "eslint": "^9.17.0",
+    "@typescript-eslint/eslint-plugin": "^8.18.2",
+    "@typescript-eslint/parser": "^8.18.2",
+    "prettier": "^3.4.2",
+    "vitest": "^2.1.8"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

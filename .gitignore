@@ -1,0 +1,10 @@
+node_modules/
+dist/
+logs/
+*.log
+*.db
+*.db-shm
+*.db-wal
+certificates/*.pem
+.env
+.DS_Store
