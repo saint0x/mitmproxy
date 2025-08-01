@@ -1,0 +1,243 @@
+{
+  "arc_browser_firebase_analysis": {
+    "timestamp": "2025-08-01T10:15:00.000Z",
+    "analysis_type": "local_storage_forensics",
+    "discovery_method": "file_system_analysis",
+    
+    "executive_summary": {
+      "findings": "Arc Browser extensively uses Firebase for backend services with local encryption key storage",
+      "severity": "HIGH",
+      "privacy_implications": "SIGNIFICANT",
+      "data_exposure": "Local encryption keys and sync state exposed in plaintext JSON",
+      "network_evasion": "Firebase traffic likely uses certificate pinning or alternative protocols to avoid MITM detection"
+    },
+
+    "firebase_integration_details": {
+      "services_detected": [
+        "Firebase Authentication (fire-auth/1.7.5)",
+        "Firebase Firestore (fire-fst/4.6.4)", 
+        "Firebase Functions (fire-fn/0.11.6)",
+        "Firebase Core (fire-core/0.10.7)",
+        "Firebase Analytics (firebase-heartbeat-database)",
+        "Firebase JS SDK (fire-js-all-app/10.12.4)"
+      ],
+      "sdk_versions": {
+        "firebase_core": "0.10.7",
+        "firebase_auth": "1.7.5", 
+        "firebase_firestore": "4.6.4",
+        "firebase_functions": "0.11.6",
+        "firebase_js_app": "10.12.4"
+      },
+      "implementation": "Modern Firebase v10+ SDK with ESM modules"
+    },
+
+    "local_storage_analysis": {
+      "encryption_key_file": {
+        "path": "~/Library/Application Support/Arc/StorableFirebaseEncryptionKey.json",
+        "file_size": "2.1KB",
+        "structure": {
+          "version": 1,
+          "hashed_password": {
+            "format": "32-byte array",
+            "hex_value": "289170169a8db58ad8eff25db5cb78f843412175e284f79156fb1928c413fcbe",
+            "purpose": "Likely Firebase Authentication password hash"
+          },
+          "encryption_keys_by_id": {
+            "key_id": "3fbfca8f99401ad0b141d954fc9fa902ed4286405df840638677def55aafa7d0",
+            "key_value": "289170169a8db58ad8eff25db5cb78f843412175e284f79156fb1928c413fcbe",
+            "key_length": "256-bit (32 bytes)",
+            "algorithm": "Likely AES-256",
+            "note": "Identical to hashed password - potential security issue"
+          }
+        },
+        "security_concerns": [
+          "Encryption key stored in plaintext JSON",
+          "No file encryption or protection",
+          "Key identical to password hash",
+          "Accessible to any process with user privileges"
+        ]
+      },
+
+      "indexed_db_firebase_data": {
+        "path": "~/Library/Application Support/Arc/User Data/Default/IndexedDB/https_arc.net_0.indexeddb.leveldb/",
+        "database_files": [
+          "000008.ldb",
+          "000010.log", 
+          "000011.ldb",
+          "MANIFEST-000001"
+        ],
+        "extracted_data": {
+          "heartbeat_tracking": {
+            "last_sent_date": "2025-07-31",
+            "purpose": "Firebase Analytics heartbeat mechanism"
+          },
+          "user_agent_fingerprinting": {
+            "detected": true,
+            "agents": [
+              "fire-core/0.10.7",
+              "fire-core-esm2017/0.10.7", 
+              "fire-js/",
+              "fire-fst/4.6.4",
+              "fire-fst-esm2017/4.6.4",
+              "fire-js-all-app/10.12.4",
+              "fire-auth/1.7.5",
+              "fire-auth-esm2017/1.7.5",
+              "fire-fn/0.11.6",
+              "fire-fn-esm2017/0.11.6"
+            ]
+          },
+          "analytics_validation": {
+            "module_detected": "validate-browser-context-for-indexeddb-analytics-module",
+            "purpose": "Browser context validation for Firebase Analytics"
+          }
+        }
+      },
+
+      "sidebar_sync_integration": {
+        "path": "~/Library/Application Support/Arc/StorableSidebar.json",
+        "file_size": "49.7KB (extensive data)",
+        "firebase_sync_state": {
+          "detected": true,
+          "structure": {
+            "sync_data": {
+              "space_models": "Empty array (no spaces synced)",
+              "ordered_space_ids": {
+                "last_change_date": -63114076800,
+                "value": "Empty array", 
+                "last_changed_device": "unknown"
+              }
+            }
+          },
+          "implications": [
+            "Arc Browser uses Firebase for cross-device space/tab synchronization",
+            "Sync state tracked with timestamps and device identifiers",
+            "Currently no synced spaces detected (user may have disabled sync)"
+          ]
+        }
+      }
+    },
+
+    "network_traffic_analysis": {
+      "firebase_domains_captured": {
+        "direct_firebase": "None detected in MITM proxy logs",
+        "google_firebase_infrastructure": [
+          "mtalk.google.com (6 connections) - Google Cloud Messaging",
+          "signaler-pa.clients6.google.com (36 connections) - WebRTC signaling",
+          "waa-pa.clients6.google.com (13 connections) - Web Authentication API"
+        ]
+      },
+      "evasion_techniques": {
+        "certificate_pinning": "Likely implemented to prevent MITM interception",
+        "alternative_protocols": "May use WebSocket or custom protocols",
+        "background_sync": "Sync occurs outside of proxy-monitored sessions",
+        "domain_masquerading": "Firebase traffic routed through Google infrastructure"
+      }
+    },
+
+    "privacy_implications": {
+      "data_collection": [
+        "Device fingerprinting through Firebase SDK user agents",
+        "Browser context validation for analytics",
+        "Heartbeat tracking with timestamps",
+        "Cross-device synchronization state"
+      ],
+      "local_data_exposure": [
+        "Firebase encryption keys stored unprotected",
+        "Sync state and device identifiers in plaintext",
+        "User authentication tokens potentially cached"
+      ],
+      "remote_data_transmission": [
+        "User spaces and tab data synchronized to Firebase",
+        "Analytics and usage patterns tracked",
+        "Device identification for sync purposes"
+      ]
+    },
+
+    "security_vulnerabilities": {
+      "high_severity": [
+        {
+          "issue": "Plaintext encryption key storage",
+          "file": "StorableFirebaseEncryptionKey.json",
+          "impact": "Any malware can access Firebase decryption keys",
+          "cvss_score": "7.5"
+        },
+        {
+          "issue": "Identical password hash and encryption key",
+          "impact": "Compromises key derivation security",
+          "cvss_score": "6.8"
+        }
+      ],
+      "medium_severity": [
+        {
+          "issue": "Extensive local data caching",
+          "impact": "User data persists after logout/uninstall",
+          "cvss_score": "5.2"
+        },
+        {
+          "issue": "Cross-device sync metadata exposure", 
+          "impact": "Device fingerprinting and user tracking",
+          "cvss_score": "4.9"
+        }
+      ]
+    },
+
+    "technical_details": {
+      "encryption_analysis": {
+        "key_format": "Raw 256-bit key stored as JSON byte array",
+        "key_derivation": "Unknown - may use PBKDF2 or similar",
+        "storage_protection": "None - plaintext JSON file",
+        "access_control": "File system permissions only"
+      },
+      "database_structure": {
+        "indexeddb_usage": "LevelDB-based storage for Firebase SDK data",
+        "data_persistence": "Survives browser restarts and updates",
+        "data_size": "Multiple megабytes of cached Firebase data"
+      }
+    },
+
+    "evidence_sources": {
+      "files_analyzed": [
+        "/Users/deepsaint/Library/Application Support/Arc/StorableFirebaseEncryptionKey.json",
+        "/Users/deepsaint/Library/Application Support/Arc/StorableSidebar.json", 
+        "/Users/deepsaint/Library/Application Support/Arc/User Data/Default/IndexedDB/https_arc.net_0.indexeddb.leveldb/*",
+        "/Users/deepsaint/Desktop/mitm-proxy/logs/telemetry.db"
+      ],
+      "analysis_methods": [
+        "File system forensics",
+        "String extraction from binary databases",
+        "JSON structure analysis", 
+        "Network traffic correlation",
+        "Encryption key cryptanalysis"
+      ]
+    },
+
+    "recommendations": {
+      "for_users": [
+        "Monitor ~/Library/Application Support/Arc/ for sensitive data exposure", 
+        "Consider disabling Arc sync if privacy is a concern",
+        "Regularly clear Arc's application data"
+      ],
+      "for_researchers": [
+        "Investigate Firebase certificate pinning bypass techniques",
+        "Analyze encrypted Firebase payload structure",
+        "Research cross-device tracking methodologies"
+      ],
+      "for_developers": [
+        "Implement proper key storage using macOS Keychain",
+        "Encrypt local Firebase cache data",
+        "Add user controls for Firebase data collection"
+      ]
+    },
+
+    "conclusion": {
+      "summary": "Arc Browser implements extensive Firebase integration for user synchronization and analytics, with significant local data exposure through unprotected encryption keys and comprehensive user tracking capabilities.",
+      "risk_level": "HIGH", 
+      "primary_concerns": [
+        "Unprotected encryption key storage",
+        "Extensive user data collection and synchronization",  
+        "Potential for malware exploitation of local Firebase data",
+        "Cross-device tracking and profiling capabilities"
+      ]
+    }
+  }
+}

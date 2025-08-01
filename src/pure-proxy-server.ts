@@ -10,7 +10,9 @@ import {
   isTelemetryDomain,
   generateRequestHash,
   extractTrackingIds,
-  extractTrackingIdsFromBody
+  extractTrackingIdsFromBody,
+  classifyTelemetryDomain,
+  TelemetryCategory
 } from '@/utils/crypto';
 import type { TelemetryRequest, TelemetryResponse, ConnectRequest } from '@/schemas/request';
 
@@ -81,44 +83,55 @@ export class PureProxyServer {
     
     // Handle HTTPS requests from tunnels
     this.mitmTunnel.on('httpsRequest', (request) => {
-      logger.info('🔍 HTTPS request intercepted', {
-        requestId: request.id,
-        tunnelId: request.tunnelId,
-        method: request.method,
-        url: request.url,
-        sessionId: this.currentSessionId,
-      });
-      
-      // Save to storage with extended properties
-      this.storage.saveRequest({
-        ...request,
-        sessionId: this.currentSessionId,
-        domain: extractDomain(request.url),
-        isTelemetry: isTelemetryDomain(request.url),
-        requestHash: generateRequestHash(request.method, request.url, request.body),
-      });
-      
-      // Update session statistics
       const domain = extractDomain(request.url);
-      const trackingIds = extractTrackingIds(request.url);
-      const bodyTrackingIds = request.body ? extractTrackingIdsFromBody(request.body, request.headers['content-type']) : [];
-      this.updateSessionStats(domain, [...trackingIds, ...bodyTrackingIds].map(t => t.value));
+      const telemetryCategory = classifyTelemetryDomain(domain);
+      
+      if (telemetryCategory !== 'ignore') {
+        logger.info('🎯 Arc telemetry intercepted', {
+          requestId: request.id,
+          tunnelId: request.tunnelId,
+          method: request.method,
+          url: request.url,
+          domain,
+          category: telemetryCategory,
+          sessionId: this.currentSessionId,
+        });
+        
+        this.storage.saveRequest({
+          ...request,
+          sessionId: this.currentSessionId,
+          domain,
+          isTelemetry: isTelemetryDomain(request.url),
+          telemetryCategory,
+          requestHash: generateRequestHash(request.method, request.url, request.body),
+        });
+        
+        const trackingIds = extractTrackingIds(request.url);
+        const bodyTrackingIds = request.body ? extractTrackingIdsFromBody(request.body, request.headers['content-type']) : [];
+        this.updateSessionStats(domain, [...trackingIds, ...bodyTrackingIds].map(t => t.value));
+      }
     });
     
     // Handle HTTPS responses from tunnels
     this.mitmTunnel.on('httpsResponse', (response) => {
-      logger.info('📨 HTTPS response intercepted', {
-        responseId: response.id,
-        tunnelId: response.tunnelId,
-        status: response.status,
-        sessionId: this.currentSessionId,
-      });
+      const domain = response.tlsInfo?.serverName || '';
+      const telemetryCategory = classifyTelemetryDomain(domain);
       
-      // Save to storage
-      this.storage.saveResponse({
-        ...response,
-        sessionId: this.currentSessionId,
-      });
+      if (telemetryCategory !== 'ignore') {
+        logger.info('📨 Arc telemetry response', {
+          responseId: response.id,
+          tunnelId: response.tunnelId,
+          status: response.status,
+          domain,
+          category: telemetryCategory,
+          sessionId: this.currentSessionId,
+        });
+        
+        this.storage.saveResponse({
+          ...response,
+          sessionId: this.currentSessionId,
+        });
+      }
     });
   }
 
@@ -228,26 +241,28 @@ export class PureProxyServer {
 
     const domain = extractDomain(fullUrl);
     const isTelemetry = isTelemetryDomain(fullUrl);
+    const telemetryCategory = classifyTelemetryDomain(domain);
 
-    logger.info('HTTP request', {
-      requestId,
-      method,
-      url: fullUrl,
-      domain,
-      isTelemetry,
-      sessionId: this.currentSessionId,
-    });
+    if (telemetryCategory !== 'ignore') {
+      logger.info('🎯 Arc HTTP telemetry', {
+        requestId,
+        method,
+        url: fullUrl,
+        domain,
+        category: telemetryCategory,
+        sessionId: this.currentSessionId,
+      });
+    }
 
-    // Extract tracking information
     const urlTrackingIds = extractTrackingIds(fullUrl);
     const bodyTrackingIds = body ? extractTrackingIdsFromBody(body, headers['content-type']) : [];
     const allTrackingIds = [...urlTrackingIds, ...bodyTrackingIds];
 
-    // Save request to storage
     const telemetryRequest: TelemetryRequest & {
       sessionId: string;
       domain: string;
       isTelemetry: boolean;
+      telemetryCategory: string;
       requestHash: string;
     } = {
       id: requestId,
@@ -261,13 +276,17 @@ export class PureProxyServer {
       sessionId: this.currentSessionId,
       domain,
       isTelemetry,
+      telemetryCategory,
       requestHash: generateRequestHash(method, fullUrl, body),
     };
 
-    this.storage.saveRequest(telemetryRequest);
+    // Always save Arc telemetry, but only log it
+    if (telemetryCategory !== 'ignore') {
+      this.storage.saveRequest(telemetryRequest);
+    }
 
     try {
-      // Forward request to target server
+      // Always forward ALL requests (proxy must handle all traffic)
       const response = await this.forwardHttpRequest(method, fullUrl, headers, body);
       const endTime = performance.now();
       const responseTime = endTime - startTime;
@@ -432,38 +451,35 @@ export class PureProxyServer {
     };
 
     const isTelemetryHost = isTelemetryDomain(`https://${host}`);
+    const telemetryCategory = classifyTelemetryDomain(host);
     
-    logger.info('CONNECT request received', {
-      requestId: connectRequest.id,
-      host,
-      port,
-      isTelemetry: isTelemetryHost,
-      userAgent: connectRequest.userAgent,
-      sessionId: this.currentSessionId,
-    });
-    
-    // Log telemetry-specific information
-    if (isTelemetryHost) {
-      logger.warn('🎯 TELEMETRY DOMAIN DETECTED', {
+    // Only log and store Arc telemetry domains
+    if (telemetryCategory !== 'ignore') {
+      logger.warn('🎯 ARC TELEMETRY DOMAIN DETECTED', {
         requestId: connectRequest.id,
         telemetryService: this.getTelemetryServiceName(host),
         host,
         port,
+        category: telemetryCategory,
         userAgent: connectRequest.userAgent,
         sessionId: this.currentSessionId,
         timestamp: connectRequest.timestamp.toISOString(),
       });
+      
+      this.storage.saveConnectRequest({
+        ...connectRequest,
+        telemetryCategory
+      });
     }
 
-    // Save CONNECT request
-    this.storage.saveConnectRequest(connectRequest);
-
     try {
+      // Always handle ALL CONNECT requests (proxy functionality)
       if (this.mitmTunnel) {
-        // Use MITM tunnel with interception for telemetry domains
-        await this.mitmTunnel.handleConnect(clientSocket, connectRequest, isTelemetryHost);
+        // Only intercept Arc telemetry for TLS decryption
+        const shouldIntercept = telemetryCategory === 'arc' || telemetryCategory === 'possible';
+        await this.mitmTunnel.handleConnect(clientSocket, connectRequest, shouldIntercept);
       } else {
-        // Fallback to direct tunnel
+        // Always create direct tunnel for all traffic
         await this.createDirectTunnel(clientSocket, host, port);
       }
     } catch (error) {
