@@ -34,6 +34,11 @@ Configure Arc Browser proxy settings to `localhost:8080` for both HTTP and HTTPS
 - macOS (for mkcert certificate generation)
 - Arc Browser
 
+## Evidence Reports
+
+- [`data/dump.json`](data/dump.json) - Raw telemetry interception logs
+- [`data/report.md`](data/report.md) - Structured violation analysis
+
 ## Legal
 
 Defensive security research only. Use on your own devices and traffic only.
