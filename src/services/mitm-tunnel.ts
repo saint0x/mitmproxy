@@ -31,12 +31,25 @@ export class MITMTunnel extends EventEmitter {
       try {
         await this.createInterceptedTunnel(clientSocket, connectRequest);
       } catch (error) {
-        logger.warn('TLS interception failed, falling back to direct tunnel', {
-          requestId: connectRequest.id,
-          host,
-          port,
-          error: (error as Error).message,
-        });
+        const errorMsg = (error as Error).message;
+        const isCertificatePinning = errorMsg.includes('certificate unknown') || 
+                                   errorMsg.includes('handshake failure');
+        
+        if (isCertificatePinning) {
+          logger.info('🔒 Certificate pinning detected, using direct tunnel', {
+            requestId: connectRequest.id,
+            host,
+            port,
+            reason: 'Arc Browser uses certificate pinning to prevent interception',
+          });
+        } else {
+          logger.warn('TLS interception failed, falling back to direct tunnel', {
+            requestId: connectRequest.id,
+            host,
+            port,
+            error: errorMsg,
+          });
+        }
         await this.createDirectTunnel(clientSocket, connectRequest);
       }
     } else {
@@ -143,20 +156,42 @@ export class MITMTunnel extends EventEmitter {
 
             // Error handlers
             clientTLSSocket.on('error', (error) => {
-              logger.error('Client TLS error during interception', {
-                requestId: connectRequest.id,
-                host,
-                error: error.message,
-              });
+              const isCertificatePinning = error.message.includes('certificate unknown') || 
+                                         error.message.includes('alert certificate unknown');
+              
+              if (isCertificatePinning) {
+                logger.info('🔒 Certificate pinning detected (expected for Arc domains)', {
+                  requestId: connectRequest.id,
+                  host,
+                  reason: 'Certificate pinning prevents TLS interception',
+                });
+              } else {
+                logger.error('Client TLS error during interception', {
+                  requestId: connectRequest.id,
+                  host,
+                  error: error.message,
+                });
+              }
               reject(error);
             });
 
             targetSocket.on('error', (error) => {
-              logger.error('Target TLS error during interception', {
-                requestId: connectRequest.id,
-                host,
-                error: error.message,
-              });
+              const isHandshakeFailure = error.message.includes('handshake failure') ||
+                                       error.message.includes('alert handshake failure');
+              
+              if (isHandshakeFailure) {
+                logger.info('🔒 TLS handshake blocked (expected for pinned domains)', {
+                  requestId: connectRequest.id,
+                  host,
+                  reason: 'Server rejected certificate or cipher suite',
+                });
+              } else {
+                logger.error('Target TLS error during interception', {
+                  requestId: connectRequest.id,
+                  host,
+                  error: error.message,
+                });
+              }
               reject(error);
             });
 

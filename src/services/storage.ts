@@ -36,6 +36,7 @@ export class StorageService {
     this.db.pragma('temp_store = memory');
 
     this.createTables();
+    this.runMigrations();
     this.initialized = true;
   }
 
@@ -66,6 +67,7 @@ export class StorageService {
         origin TEXT,
         domain TEXT,
         is_telemetry BOOLEAN DEFAULT FALSE,
+        telemetry_category TEXT DEFAULT 'ignore',
         request_hash TEXT,
         created_at INTEGER DEFAULT (strftime('%s', 'now')),
         FOREIGN KEY (session_id) REFERENCES sessions (id)
@@ -129,6 +131,7 @@ export class StorageService {
         port INTEGER NOT NULL,
         headers TEXT NOT NULL,
         user_agent TEXT,
+        telemetry_category TEXT DEFAULT 'ignore',
         created_at INTEGER DEFAULT (strftime('%s', 'now')),
         FOREIGN KEY (session_id) REFERENCES sessions (id)
       )
@@ -172,6 +175,29 @@ export class StorageService {
       CREATE INDEX IF NOT EXISTS idx_tunnel_connections_session_id ON tunnel_connections (session_id);
       CREATE INDEX IF NOT EXISTS idx_tunnel_connections_connect_request_id ON tunnel_connections (connect_request_id);
     `);
+  }
+
+  private runMigrations(): void {
+    try {
+      // Check if telemetry_category column exists in requests table
+      const requestsInfo = this.db.pragma('table_info(requests)');
+      const hasRequestsCategory = requestsInfo.some((col: any) => col.name === 'telemetry_category');
+      
+      if (!hasRequestsCategory) {
+        this.db.exec('ALTER TABLE requests ADD COLUMN telemetry_category TEXT DEFAULT "ignore"');
+      }
+      
+      // Check if telemetry_category column exists in connect_requests table
+      const connectInfo = this.db.pragma('table_info(connect_requests)');
+      const hasConnectCategory = connectInfo.some((col: any) => col.name === 'telemetry_category');
+      
+      if (!hasConnectCategory) {
+        this.db.exec('ALTER TABLE connect_requests ADD COLUMN telemetry_category TEXT DEFAULT "ignore"');
+      }
+    } catch (error) {
+      // Migration failed, but continue
+      console.warn('Database migration warning:', (error as Error).message);
+    }
   }
 
   // Session operations
@@ -240,12 +266,12 @@ export class StorageService {
   }
 
   // Request operations
-  public saveRequest(request: TelemetryRequest & { sessionId: string; domain: string; isTelemetry: boolean; requestHash: string }): void {
+  public saveRequest(request: TelemetryRequest & { sessionId: string; domain: string; isTelemetry: boolean; requestHash: string; telemetryCategory?: string }): void {
     const stmt = this.db.prepare(`
       INSERT INTO requests (
         id, session_id, timestamp, method, url, headers, body, user_agent, origin, 
-        domain, is_telemetry, request_hash
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        domain, is_telemetry, telemetry_category, request_hash
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
 
     stmt.run(
@@ -260,6 +286,7 @@ export class StorageService {
       request.origin || null,
       request.domain,
       request.isTelemetry ? 1 : 0,
+      request.telemetryCategory || 'ignore',
       request.requestHash
     );
   }
@@ -334,10 +361,10 @@ export class StorageService {
   }
 
   // CONNECT request operations
-  public saveConnectRequest(request: ConnectRequest): void {
+  public saveConnectRequest(request: ConnectRequest & { telemetryCategory?: string }): void {
     const stmt = this.db.prepare(`
-      INSERT INTO connect_requests (id, session_id, timestamp, host, port, headers, user_agent)
-      VALUES (?, ?, ?, ?, ?, ?, ?)
+      INSERT INTO connect_requests (id, session_id, timestamp, host, port, headers, user_agent, telemetry_category)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     `);
 
     stmt.run(
@@ -347,7 +374,8 @@ export class StorageService {
       request.host,
       request.port,
       JSON.stringify(request.headers),
-      request.userAgent || null
+      request.userAgent || null,
+      request.telemetryCategory || 'ignore'
     );
   }
 
@@ -566,6 +594,49 @@ export class StorageService {
     
     const result = stmt.run(cutoffTime);
     return result.changes;
+  }
+
+  public getRequestsByCategory(categories: string[], sessionId?: string): Array<TelemetryRequest & { domain: string }> {
+    const categoryPlaceholders = categories.map(() => '?').join(',');
+    const stmt = sessionId
+      ? this.db.prepare(`SELECT * FROM requests WHERE session_id = ? AND telemetry_category IN (${categoryPlaceholders}) ORDER BY timestamp ASC`)
+      : this.db.prepare(`SELECT * FROM requests WHERE telemetry_category IN (${categoryPlaceholders}) ORDER BY timestamp ASC`);
+    
+    const params = sessionId ? [sessionId, ...categories] : categories;
+    const rows = stmt.all(...params) as any[];
+
+    return rows.map(row => ({
+      id: row.id,
+      timestamp: new Date(row.timestamp),
+      method: row.method,
+      url: row.url,
+      headers: JSON.parse(row.headers),
+      body: row.body || undefined,
+      userAgent: row.user_agent || undefined,
+      origin: row.origin || undefined,
+      domain: row.domain,
+    }));
+  }
+
+  public getConnectRequestsByCategory(categories: string[], sessionId?: string): ConnectRequest[] {
+    const categoryPlaceholders = categories.map(() => '?').join(',');
+    const stmt = sessionId
+      ? this.db.prepare(`SELECT * FROM connect_requests WHERE session_id = ? AND telemetry_category IN (${categoryPlaceholders}) ORDER BY timestamp ASC`)
+      : this.db.prepare(`SELECT * FROM connect_requests WHERE telemetry_category IN (${categoryPlaceholders}) ORDER BY timestamp ASC`);
+    
+    const params = sessionId ? [sessionId, ...categories] : categories;
+    const rows = stmt.all(...params) as any[];
+
+    return rows.map(row => ({
+      id: row.id,
+      timestamp: new Date(row.timestamp),
+      method: 'CONNECT' as const,
+      host: row.host,
+      port: row.port,
+      headers: JSON.parse(row.headers),
+      userAgent: row.user_agent || undefined,
+      sessionId: row.session_id,
+    }));
   }
 
   public close(): void {

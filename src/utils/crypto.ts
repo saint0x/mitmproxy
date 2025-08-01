@@ -53,6 +53,57 @@ export function isTelemetryDomain(url: string): boolean {
   );
 }
 
+export type TelemetryCategory = 'arc' | 'possible' | 'ignore';
+
+export function classifyTelemetryDomain(domain: string): TelemetryCategory {
+  const lowerDomain = domain.toLowerCase();
+  
+  const arcDomains = [
+    'api.segment.io',
+    'clientstream.launchdarkly.com',
+    'launchdarkly.com',
+    'sentry.io',
+    'ingest.sentry.io',
+    'arc.net',
+    'thebrowser.company',
+    'cdn-settings.segment.com',
+    'browser.sentry-cdn.com'
+  ];
+  
+  const possibleArcDomains = [
+    'analytics.google.com',
+    'firebase.google.com',
+    'firebaseapp.com',
+    'googleapis.com',
+    'securetoken.googleapis.com',
+    'identitytoolkit.googleapis.com'
+  ];
+  
+  const chromiumBaseDomains = [
+    'signaler-pa.clients6.google.com',
+    'waa-pa.clients6.google.com', 
+    'safebrowsing.googleapis.com',
+    'addons-pa.clients6.google.com',
+    'mtalk.google.com',
+    'update.googleapis.com',
+    'chromewebstore.google.com'
+  ];
+  
+  if (arcDomains.some(arcDomain => 
+    lowerDomain === arcDomain || lowerDomain.endsWith(`.${arcDomain}`)
+  )) {
+    return 'arc';
+  }
+  
+  if (possibleArcDomains.some(possibleDomain => 
+    lowerDomain === possibleDomain || lowerDomain.endsWith(`.${possibleDomain}`)
+  )) {
+    return 'possible';
+  }
+  
+  return 'ignore';
+}
+
 /**
  * Sanitize headers for logging (remove sensitive information)
  */
